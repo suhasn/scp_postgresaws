@@ -23,7 +23,7 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 * Region: **ap-south-1**
 
 ### Hands-on Tasks
-##### 1. Create a Resource Provider at the Global Account Level
+#### 1. Create a Resource Provider at the Global Account Level
 
 * Login to SAP Cloud Platform Cloud Foundry account and at the Global Account level click on “Resource Providers” option on the navigation menu. Here we would be configuring your AWS account credentials which will be required subsequently to create & manage the RDS PostgreSQL instances. The AWS account credentials shared with SAP will be saved in a secure store.
 ![Resource Provider View](https://blogs.sap.com/wp-content/uploads/2019/07/1-35.png)
@@ -53,7 +53,7 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
   ![Resource Provider View](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/2.png)
 
 
-##### 2. Assign Resource Provider Entitlement to your Sub-Account and assign quota of service instances
+#### 2. Assign Resource Provider Entitlement to your Sub-Account and assign quota of service instances
 
 * Once the new Resource Provider is created, we need to assign the entitlements to the sub-accounts where you create PostgreSQL instances. Click on “Entitlements” -> “Sub-account Assignments” and choose the Sub accounts for which you wish to provide this service entitlement. Click on “Add Service Plans”.
 
@@ -66,7 +66,7 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 * Assign a quota of 1 Unit for PostgreSQL on Amazon(AWS)
 ![Quota Assignment](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/5.png)
 
-##### 3. Creation of PostgreSQL Instance via the SAP Cloud Platform Cockpit
+#### 3. Creation of PostgreSQL Instance via the SAP Cloud Platform Cockpit
 
 * Login to the Sub Account and Space which was given the entitlement and go to the ‘Service Marketplace’ tab. You should now be able see “PostgreSQL on Amazon (AWS)” service.
 ![Service Marketplace](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/6.png)
@@ -82,8 +82,8 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 
 ```javascript
 {
-	"adminPassword": "codecampAdmin", //Atleast 12 characters long
-	"adminUsername": "c0deCampAdmin123", //Atleast 12 characters long
+	"adminPassword": "c0deCampAdmin123", //Atleast 12 characters long
+	"adminUsername": "codecampAdmin", //Atleast 12 characters long
 	"backupRetentionPeriod": 14, //Period in days
 	"dbEngineMajorVersion": "9.6", //PostgreSQL DB Engine Version 
 	"dbInstanceType": "db.t2.micro", // Instance type more options can be found in help
@@ -106,26 +106,90 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 
 ![AWS Console Creating](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/12.png)
 
+Now, the PostgreSQL instance is created.
 
 
-##### 4. MTAR Application Creation
+#### 4. Configure the SQuirrel SQL Client and add test data
+
+* By default the SQuirrel client will not have the required JDBC drivers, download them from the Prerequities guide for PostgreSQL.
+
+* Click on the 'Drivers' tab on SQuirrel Client and choose PostgreSQL. Notice that 'X' icon denoting that the driver is not available. Right Click on the "PostgreSQL" item and Choose "New Driver"
+![Postgresql driver unavailable1](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/25.png)
+
+On the dialog pop-up, choose "Extra Class Path" and click "Add".
+![Postgresql driver unavailable2](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/26.png)
+
+Navigate to the location of the PostgreSQL JDBC driver and select it and click OK.
+![Postgresql driver unavailable3](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/27.png)
+
+You can notice the PostgreSQL driver is now available with a Green Check mark.
+![Postgresql driver available](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/28.png)
+
+* Connect SQL Client to Access the PostgreSQL Database and enter values. Open SQuirrel SQL Client and create a new connection Alias as below with your database name:
+![SQurriel Client Alias Creation](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/29.png)
+
+
+* Open the SQL Window for the database and insert some values using the query:
+```sql
+INSERT INTO employee_details(emp_id, first_name, last_name, gender, department) values ('101','John','Doe','Male','DevX-Postgresql')
+```
+
+
+#### 5. MTAR Application Creation
 
 * Download the application code from https://github.com/suhasn/scpawsbrokerdemo.git
 
-###### MTA Configuration
+##### MTA Configuration
 
 * Navigate to the application folder and open the mta.yml file in your text editor, review the contents of the file and update the AWS PostgreSQL Instance name as per the instance that was created in the previous step 'codecampdb_INUMBER'. 
 
 ```yaml
-  - name: <codecampdb_INUMBER>  
+  ID: codeCampDemo
+_schema-version: '2.1'
+description: 'CF Demo MTAR Application with SAP UI5, Nodejs and Amazon PostgreSQL'
+version: 0.0.1
+modules:
+  - name: restapis
+    type: nodejs
+    path: restapis
+    provides:
+      - name: restapis_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: <codecampdb_INUMBER>
+  - name: ui_codeCampDemo
+    type: html5
+    path: ui_codeCampDemo
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: uaa_codeCampDemo
+      - name: dest_codeCampDemo
+      - name: restapis_api
+resources:
+  - name: uaa_codeCampDemo
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service
+  - name: dest_codeCampDemo
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
+  - name: <codecampdb_INUMBER>
     type: org.cloudfoundry.existing-service
     description: AWS PostgreSQL DB
     parameters:
       service: aws-rds-postgresql
       service-plan: development
+
  ``` 
  
-###### Node.js Application
+##### Node.js Application
 * Open the file restapis/db/dbOp.js and un-comment the code to fetch the PostgreSQL instance connection parameters from the environment variable.
 
 ```javascript
@@ -138,7 +202,7 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 		// });
 ```
 
-###### UI5 Application
+##### UI5 Application
 * Next, we will review the UI5 code. Open the file ui_codeCampDemo/webapp/controller/View1.controller.js. Here we are fetching the list of employees from the REST API 'getAllEmployees' into a JSON Model. Provide a local name for the the json model which we shall use to list all the employees in the UI.
 
 Here change the [JSON MODEL NAME] to a name like 'EmployeesJSONModel' and save the file.
@@ -187,7 +251,7 @@ Change the [JSON MODEL NAME] placeholder to the value given above in the View1.c
 </mvc:View>
 
 ```
-###### Destination Configuration
+##### Destination Service Configuration in UI5 App
 
 * Open ui_codeCampDemo/xs-app.json, provide a name to the destination field <restapi_dest_INUMBER>
 
@@ -225,6 +289,56 @@ You should see the MTAR build successfully.
 ![MTAR Build](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/14.png)
 
 * Deploy the MTAR file using the MTAR CF CLI.
+![MTAR Deploy](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/21.png)
 
+
+* Verify there are 2 new applications created - restapis and ui_codeCampDemo. 
+![Apps Created](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/22.png)
+
+* Verify there are 2 new service instances bound to ui_codeCampDemo and PostgreSQL instance that we created is now bound to restapis application
+![Service Instances](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/23.png)
+
+* Navigate to **restapis** application and click on the application route to ensure the application is running. You should see the below screen on the UI.
+![RestAPI Application](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/30.png)
+
+* Now, lets verify if the data created from SQuirrel Client can be seen by accessing a REST API by appending **/api/getAllEmployees** to the above restapis application URL and we will see the data being displayed.
+![RestAPI Application UI](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/31.png)
+
+* Navigate to **ui_codeCampDemo** application and click on the application route, this should open the UI5 application with the "No Data" in the List of Employees.
+
+![Nodata List Application UI](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/32.png)
+
+
+In order to get the list of data exposed by restapis application in our UI5 application ui_codeCampDemo, we need to create a destination.
+
+
+#### 6. Destination Creation
+
+* From the SAP Cloud Platform cockpit open the service instance 'dest_codeCampDemo', navigate to "Destinations" tab and click on "New Destination"
+
+![New Destination ](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/17.png)
+
+* Create a new destination with the values
+	1. Name as provided in the xs-app.json - <restapi_dest_INUMBER>
+	2. URL: Application route of the application 'restapis'. (Get it from the SAP Cloud Platform cockpit)
+	3. Proxy Type: Internet
+	4. Authentication: NoAuthentication
+![New Destination ](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/18.png)
+
+* Check connection to verify if the destination is reachable. You should get a successful connection message.
+
+#### 7. Verify the UI5 application to list the employees
+
+Now, once the destination is configured - navigate to the ui_codeCampDemo application on SAP Cloud Platform and click on the application route link. Now, we should see the list of employees. In this case we should see one entry as below:
+
+![Final App Screen](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/33.png)
+
+With this we have successfully learnt how to create and consume AWS PostgreSQL instance in SAP Cloud Platform via Node.js and UI5 application.
+
+
+
+
+	
+	
 
 
