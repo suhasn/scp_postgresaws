@@ -17,9 +17,9 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 
 ### Prerequisites
 * SAP Cloud Platform Cloud Foundry account on AWS with a Sub-account and Space .
-* AWS VPC ID: **vpc-07553b3f39931a63d**
 * Access Key ID: **AKIA4RW7ZMBLPXSDJ6YU**
 * Secret Access Key: **HBINoEtedvMhkJkDgaChHLISVejfLZ8UA3m1Qcta**
+* AWS VPC ID: **vpc-07553b3f39931a63d**
 * Region: **ap-south-1**
 
 ### Hands-on Tasks
@@ -29,7 +29,7 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 ![Resource Provider View](https://blogs.sap.com/wp-content/uploads/2019/07/1-35.png)
 
 * Click on the “New Provider”. This opens a pop-up dialog where you would have to provide the Hyperscaler Account Credentials. In this case, we would be keying in the AWS account details.
-![Resource Provider View](https://blogs.sap.com/wp-content/uploads/2019/07/2-22.png)
+![Resource Provider View](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/1.png)
 
 * Key in the values for the above parameters as per the following:
 
@@ -37,7 +37,7 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 
   b. **Display Name**: Provide a suitable display name for the provider for identification on the cockpit. 
 
-  c. **Technical Name**: Provide a unique technical name. This name would be required by the application developers as a parameter when creating service instances from this provider. **Eg: devx_<INUMBER>_provider**
+  c. **Technical Name**: Provide a unique technical name. This name would be required by the application developers as a parameter when creating service instances from this provider. **Eg: devx_[INUMBER]_provider**
 
   d. **Description**: Provide an optional description for this resource provider.
 
@@ -50,32 +50,33 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
   h. **AWS Region**:Provide the aws region where you want to create the PostgreSQL instances, i.e., where the VPC has been created. Use the region that was provided as part of prerequisites.
 
   Once you have all the values above, provide that in the dialog pop-up to create a new Resource Provider.
-  ![Resource Provider View](https://blogs.sap.com/wp-content/uploads/2019/07/7-16.png)
+  ![Resource Provider View](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/2.png)
 
 
 ##### 2. Assign Resource Provider Entitlement to your Sub-Account and assign quota of service instances
 
 * Once the new Resource Provider is created, we need to assign the entitlements to the sub-accounts where you create PostgreSQL instances. Click on “Entitlements” -> “Sub-account Assignments” and choose the Sub accounts for which you wish to provide this service entitlement. Click on “Add Service Plans”.
 
-![Sub-Account Entitlements](https://blogs.sap.com/wp-content/uploads/2019/07/8-14.png)
+![Sub-Account Entitlements]((https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/3.png))
 
 * Choose the “PostgreSQL on Amazon (AWS)” service from the catalog and choose the service plans from the Resource Provider created/Provided by the instructor. Click on “Add Service Plan” to assign the services to the Sub-account. 
 
-![Sub-Account Entitlements](https://blogs.sap.com/wp-content/uploads/2019/07/8-14.png)
+![Sub-Account Entitlements](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/4.png)
 
 * Assign a quota of 1 Unit for PostgreSQL on Amazon(AWS)
-![Quota Assignment]()
+![Quota Assignment](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/5.png)
 
 ##### 3. Creation of PostgreSQL Instance via the SAP Cloud Platform Cockpit
 
-* Login to the sub-account which was given the entitlement and go to the ‘Service Marketplace’ tab. You should now be able see “PostgreSQL on Amazon (AWS)” service.
-![Service Marketplace](https://blogs.sap.com/wp-content/uploads/2019/07/23-7.png)
+* Login to the Sub Account and Space which was given the entitlement and go to the ‘Service Marketplace’ tab. You should now be able see “PostgreSQL on Amazon (AWS)” service.
+![Service Marketplace](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/6.png)
 
 * Click on the “PostgreSQL on Amazon (AWS)” service tile and see the available plans. Click on the “Instances” option on the navigation menu and click “New Instance”.
-![New Instance](https://blogs.sap.com/wp-content/uploads/2019/07/24-7.png)
+![New Instance](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/7.png)
 
-* Choose a service plan as per the requirement and click “Next”.
-![New Instance - Service Plan](https://blogs.sap.com/wp-content/uploads/2019/07/14-7.png)
+* Choose a service plan as per the requirement and click “Next”. You would see the service plans listed as per the selection during the service entitlement selection. We chose only "development" in step 2, hence only 'development' plan is visible.
+
+![New Instance - Service Plan](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/8.png)
 
 * Configure the Additional Parameters are as below, make sure you correctly provide the 'resourceTechnicalName' as per the value provided during the Resource Provider creation. And 'dbName' as 'mydb_<INUMBER>'
 
@@ -93,10 +94,19 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 	"storageGb": 20 //Storage in GB required
 }
 ```
+![New Instance - Service Plan](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/9.png)
 
 * You could leave the application blank for now and confirm the service instance creation with a instance name as 'codecampdb_INUMBER' and click ‘Finish’.
 
-![New Instance - Final Step]()
+![New Instance - Final Step](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/10.png)
+
+![New Instance - Final Step](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/11.png)
+
+* PostgreSQL instance will get created in AWS RDS Region of our choice. (Instructor to show the instance created on AWS Console)
+
+![AWS Console Creating](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/12.png)
+
+
 
 ##### 4. MTAR Application Creation
 
@@ -166,8 +176,7 @@ Change the [JSON MODEL NAME] placeholder to the value given above in the View1.c
 					<content>
 						<List id="employeeList" width="auto" items="{ [JSON MODEL NAME] >/}">
 							<items>
-								<ObjectListItem title="{restEmployees>first_name} {restEmployees>last_name}" intro="{restEmployees>department}" type="Navigation"
-									press="onPressContact"/>
+								<ObjectListItem title="{[JSON MODEL NAME]>first_name} {[JSON MODEL NAME]>last_name}" intro="{[JSON MODEL NAME]>department}" type="Navigation"/>
 							</items>
 						</List>
 					</content>
@@ -201,4 +210,21 @@ Change the [JSON MODEL NAME] placeholder to the value given above in the View1.c
 }
 ```
 
-*
+* Build the MTAR file using the command.
+
+> Command: java -jar [path to mta.jar] –-[option][=arguments] [command]. (Documentation: https://help.sap.com/viewer/58746c584026430a890170ac4d87d03b/Cloud/en-US/9f778dba93934a80a51166da3ec64a05.html)
+
+For Instance:
+
+```script
+java -jar ../mta_archive_builder-1.1.19.jar --build-target CF --mtar scpawsbrokerdemo.mtar build
+```
+![MTAR Build](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/13.png)
+
+You should see the MTAR build successfully.
+![MTAR Build](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/14.png)
+
+* Deploy the MTAR file using the MTAR CF CLI.
+
+
+
