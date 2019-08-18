@@ -4,10 +4,9 @@
 			<pages>
 				<Page id="page" title="{i18n>title}">
 					<content>
-						<List id="employeeList" width="auto" items="{restEmployees>/}">
+						<List id="employeeList" width="auto" items="{EmployeesJSONModel>/}">
 							<items>
-								<ObjectListItem title="{restEmployees>first_name} {restEmployees>last_name}" intro="{restEmployees>department}" type="Navigation"
-									press="onPressContact"/>
+								<ObjectListItem title="{EmployeesJSONModel>first_name} {EmployeesJSONModel>last_name}" intro="{EmployeesJSONModel>department}" type="Navigation"/>
 							</items>
 						</List>
 					</content>

@@ -11,6 +11,6 @@
 	}, {
 		"source": "/getAllEmployees",
 		"target": "/api/getAllEmployees",
-		"destination": "<restapi_dest_INUMBER>"
+		"destination": "restapi_dest_i072243"
 	}]
 }

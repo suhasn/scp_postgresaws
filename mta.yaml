@@ -11,15 +11,10 @@ modules:
         properties:
           url: '${default-url}'
     requires:
-      - name: codecampdb
+      - name: codecampdb_i072243
   - name: ui_codeCampDemo
     type: html5
     path: ui_codeCampDemo
-    parameters:
-      disk-quota: 256M
-      memory: 256M
-    build-parameters:
-      builder: grunt
     requires:
       - name: uaa_codeCampDemo
       - name: dest_codeCampDemo
@@ -36,7 +31,7 @@ resources:
       service-plan: lite
       service: destination
     type: org.cloudfoundry.managed-service
-  - name: <codecampdb_INUMBER>
+  - name: codecampdb_i072243
     type: org.cloudfoundry.existing-service
     description: AWS PostgreSQL DB
     parameters:

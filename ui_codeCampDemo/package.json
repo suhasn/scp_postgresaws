@@ -2,15 +2,16 @@
 	"name": "ui_codeCampDemo",
 	"version": "0.0.1",
 	"description": "",
-	"devDependencies": {
-		"@sap/grunt-sapui5-bestpractice-build": "1.4.1",
-		"@sap/grunt-sapui5-bestpractice-test": "2.0.1"
-	},
+	"devDependencies": {},
 	"dependencies": {
-		"@sap/approuter": "6.0.1"
+		"@sap/approuter": "6.0.1",
+		"grunt": "^1.0.4",
+		"node": "8.x"
 	},
 	"scripts": {
-		"start": "node node_modules/@sap/approuter/approuter.js",
-		"test": "grunt unit_and_integration_tests"
+		"start": "node node_modules/@sap/approuter/approuter.js"
+	},
+	"engines": {
+		"node": "8.x"
 	}
 }

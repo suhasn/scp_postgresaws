@@ -11,7 +11,7 @@ sap.ui.define([
 			employeesModel.loadData(
 				"/getAllEmployees", null, true, 'GET'
 			);
-			this.getView().setModel(employeesModel, "[JSON MODEL NAME]");
+			this.getView().setModel(employeesModel, "EmployeesJSONModel");
 		}
 	});
 });

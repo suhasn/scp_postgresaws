@@ -20,11 +20,11 @@ function _connectToDB() {
 
 		// UNCOMMENT THE BELOW GET SERVICES CODE
 
-		// const servicesENV = xsenv.getServices({
-		// 	 'aws-rds-postgresql': {
-		// 	 	tag: "postgresql"
-		// 	 }
-		// });
+		const servicesENV = xsenv.getServices({
+			 'aws-rds-postgresql': {
+			 	tag: "postgresql"
+			 }
+		});
 
 		var awsEnv = servicesENV['aws-rds-postgresql'];
 		const dbConnStr = awsEnv.uri + "?ssl=true";
