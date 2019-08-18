@@ -1,0 +1,16 @@
+{
+	"welcomeFile": "/ui_codeCampDemo/index.html",
+	"authenticationMethod": "none",
+	"logout": {
+		"logoutEndpoint": "/do/logout"
+	},
+	"routes": [{
+		"source": "^/ui_codeCampDemo/(.*)$",
+		"target": "$1",
+		"localDir": "webapp"
+	}, {
+		"source": "/getAllEmployees",
+		"target": "/api/getAllEmployees",
+		"destination": "dest_codeCampDemo"
+	}]
+}

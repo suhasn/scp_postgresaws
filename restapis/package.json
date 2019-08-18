@@ -1,0 +1,27 @@
+{
+	"dependencies": {
+		"pg-promise": "^8.2.2",
+		"express": "^4.7.2",
+		"cfenv": "^1.0.4",
+		"request": "2.88.0",
+		"@sap/xsenv": "^1.2.9",
+		"@sap/xssec": "^2.1.15"
+	},
+	"description": "my description",
+	"devDependencies": {
+		"jest": "^23.6.0",
+		"jest-junit": "^5.2.0"
+	},
+	"files": [],
+	"main": "server.js",
+	"name": "restapis",
+	"scripts": {
+		"test": "node node_modules/jest/bin/jest --config jest.json",
+		"test-coverage": "node node_modules/jest/bin/jest --coverage --config jest.json",
+		"start": "node server.js"
+	},
+	"engines": {
+		"node": "8.x"
+	},
+	"version": "1.0.0"
+}

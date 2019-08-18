@@ -1,0 +1,18 @@
+<mvc:View controllerName="com.sap.demo.codecamp.ui.controller.View1" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}">
+					<content>
+						<List id="employeeList" width="auto" items="{restEmployees>/}">
+							<items>
+								<ObjectListItem title="{restEmployees>first_name} {restEmployees>last_name}" intro="{restEmployees>department}" type="Navigation"
+									press="onPressContact"/>
+							</items>
+						</List>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

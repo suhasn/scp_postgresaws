@@ -1,0 +1,50 @@
+ID: codeCampDemo
+_schema-version: '2.1'
+description: 'CF Demo MTAR Application with SAP UI5, Nodejs and Amazon PostgreSQL'
+version: 0.0.1
+modules:
+  - name: restapis
+    type: nodejs
+    path: restapis
+    provides:
+      - name: restapis_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: codecampdb
+  - name: ui_codeCampDemo
+    type: html5
+    path: ui_codeCampDemo
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    build-parameters:
+      builder: grunt
+    requires:
+      - name: uaa_codeCampDemo
+      - name: dest_codeCampDemo
+      - name: restapis_api
+resources:
+  #- name: codecamppgdb
+  #  type: org.cloudfoundry.managed-service
+  #  description: PostgreSQL
+  #  parameters:
+  #    service: postgresql
+  #    service-plan: v9.6-dev
+  - name: uaa_codeCampDemo
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service
+  - name: dest_codeCampDemo
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
+  - name: codecampdb
+    type: org.cloudfoundry.existing-service
+    description: AWS PostgreSQL DB
+    parameters:
+      service: aws-rds-postgresql
+      service-plan: development
