@@ -11,6 +11,6 @@
 	}, {
 		"source": "/getAllEmployees",
 		"target": "/api/getAllEmployees",
-		"destination": "dest_codeCampDemo"
+		"destination": "<restapi_dest_INUMBER>"
 	}]
 }

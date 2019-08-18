@@ -25,12 +25,6 @@ modules:
       - name: dest_codeCampDemo
       - name: restapis_api
 resources:
-  #- name: codecamppgdb
-  #  type: org.cloudfoundry.managed-service
-  #  description: PostgreSQL
-  #  parameters:
-  #    service: postgresql
-  #    service-plan: v9.6-dev
   - name: uaa_codeCampDemo
     parameters:
       path: ./xs-security.json
@@ -42,7 +36,7 @@ resources:
       service-plan: lite
       service: destination
     type: org.cloudfoundry.managed-service
-  - name: codecampdb
+  - name: <codecampdb_INUMBER>
     type: org.cloudfoundry.existing-service
     description: AWS PostgreSQL DB
     parameters:

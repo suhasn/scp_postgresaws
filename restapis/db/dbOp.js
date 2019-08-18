@@ -18,11 +18,13 @@ function _connectToDB() {
 		// we create and intialize the connection
 		const pgp = require('pg-promise')();
 
-		const servicesENV = xsenv.getServices({
-			'aws-rds-postgresql': {
-				tag: "postgresql"
-			}
-		});
+		// UNCOMMENT THE BELOW GET SERVICES CODE
+
+		// const servicesENV = xsenv.getServices({
+		// 	 'aws-rds-postgresql': {
+		// 	 	tag: "postgresql"
+		// 	 }
+		// });
 
 		var awsEnv = servicesENV['aws-rds-postgresql'];
 		const dbConnStr = awsEnv.uri + "?ssl=true";
