@@ -17,8 +17,8 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 
 ### Prerequisites
 * SAP Cloud Platform Cloud Foundry account on AWS with a Sub-account and Space .
-* Access Key ID: **AKIA4RW7ZMBLPXSDJ6YU**
-* Secret Access Key: **HBINoEtedvMhkJkDgaChHLISVejfLZ8UA3m1Qcta**
+* Access Key ID:  Will be provided by the instructor
+* Secret Access Key: Will be provided by the instructor
 * AWS VPC ID: **vpc-07553b3f39931a63d**
 * Region: **ap-south-1**
 
