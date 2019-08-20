@@ -57,7 +57,7 @@ This application will be built on SAP Cloud Platform Cloud Foundry Environment a
 
 * Once the new Resource Provider is created, we need to assign the entitlements to the sub-accounts where you create PostgreSQL instances. Click on “Entitlements” -> “Sub-account Assignments” and choose the Sub accounts for which you wish to provide this service entitlement. Click on “Add Service Plans”.
 
-![Sub-Account Entitlements]((https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/3.png))
+![Sub-Account Entitlements](https://github.com/suhasn/scpawsbrokerdemo/blob/master/images/3.png)
 
 * Choose the “PostgreSQL on Amazon (AWS)” service from the catalog and choose the service plans from the Resource Provider created/Provided by the instructor. Click on “Add Service Plan” to assign the services to the Sub-account. 
 
