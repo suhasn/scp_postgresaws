@@ -3,7 +3,7 @@
 		"pg-promise": "^8.2.2",
 		"express": "^4.7.2",
 		"cfenv": "^1.0.4",
-		"request": "2.88.0",
+		"request": "2.88.2",
 		"@sap/xsenv": "^1.2.9",
 		"@sap/xssec": "^2.1.15"
 	},
