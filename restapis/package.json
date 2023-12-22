@@ -5,7 +5,7 @@
 		"cfenv": "^1.0.4",
 		"request": "2.88.0",
 		"@sap/xsenv": "^1.2.9",
-		"@sap/xssec": "^2.1.15"
+		"@sap/xssec": "^3.6.0"
 	},
 	"description": "my description",
 	"devDependencies": {
