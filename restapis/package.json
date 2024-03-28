@@ -1,6 +1,6 @@
 {
 	"dependencies": {
-		"pg-promise": "^8.2.2",
+		"pg-promise": "^11.5.5",
 		"express": "^4.7.2",
 		"cfenv": "^1.0.4",
 		"request": "2.88.0",
